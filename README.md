@@ -2,7 +2,7 @@
 
 **[Live chart](https://nicolelily.github.io/voronoi-scatterplot-iucn/)** | #30DayChartChallenge 2026 Day 3 - Mosaic
 
-![Voronoi scatterplot showing 889 endangered US animal species colored by IUCN Red List category](static/favicon.png)
+![Voronoi scatterplot showing 889 endangered US animal species colored by IUCN Red List category](static/chart-screenshot.png)
 
 ## About this chart
 
