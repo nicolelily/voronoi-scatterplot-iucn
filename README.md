@@ -1,18 +1,58 @@
-This repository has been created with [setup-sda](https://github.com/nshiab/setup-sda/).
+# Voronoi Scatterplot: Endangered Animals in the United States
 
-It's using [simple-data-analysis](https://github.com/nshiab/simple-data-analysis), [journalism](https://github.com/nshiab/journalism), and others great open-source librairies with [SvelteKit](https://svelte.dev/docs/kit/introduction).
+**[Live chart](https://nicolelily.github.io/voronoi-scatterplot-iucn/)** | #30DayChartChallenge 2026 Day 3 - Mosaic
 
-Here's the recommended workflow:
+![Voronoi scatterplot showing 889 endangered US animal species colored by IUCN Red List category](static/favicon.png)
 
-- Put your raw data in the `sda/data` folder. Note that this folder is gitignored.
-- Use the `sda/main.ts` file to clean and process your raw data. Write the results to the `src/data` or `static/` folders.
-- Import your processed data from the `src/data` folder into the `src/routes/+page.svelte` or fetch it with `src/routes/+page.ts`.
-- Use the data for your content.
+## About this chart
 
-When working on your project, you can use the following commands:
+This Voronoi scatterplot visualizes **889 endangered animal species** in the United States that face human-caused threats, drawn from the IUCN Red List.
 
-- `deno task sda` will watch your `sda/main.ts` and its dependencies. Everytime you'll save some changes, the data will be reprocessed.
-- `deno task dev` will start a local server and watch all `src/*` files and their dependencies. Everytime you'll save some changes or the data is reprocessed, the content will be updated.
+Each dot represents a species. The **x-axis** shows the total number of human-caused threats facing that species, while the **y-axis** shows how many distinct threat categories those threats span (e.g., pollution, habitat loss, climate change). The three colored Voronoi zones — **amber** (Vulnerable), **red** (Endangered), and **dark red** (Critically Endangered) — reveal a clear pattern: critically endangered species tend to face more threats across more categories.
 
-By opening two terminals each running one of the above commands, you'll be able to work on your project with a live preview of your content and data.
-  
+### Why a Voronoi scatterplot?
+
+The Day 3 prompt is **Mosaic**. A Voronoi diagram partitions a plane into regions closest to each seed point — a natural mosaic. Layering it over a scatterplot lets the colored zones flow into each other, making it easy to see where the three IUCN categories cluster and how they relate to threat burden. It's a mosaic that tells a story.
+
+## #30DayChartChallenge 2026 — Animal Welfare
+
+For the 2026 challenge, all of my entries use **animal welfare data**. This entry focuses on the human-driven threats pushing US wildlife toward extinction — from habitat destruction and pollution to climate change and invasive species.
+
+## Data
+
+**Source:** [IUCN Red List of Threatened Species](https://www.iucnredlist.org/) API v4
+
+**Pipeline:**
+1. Fetched all ~14,000 species assessed in the US via the `/countries/US` endpoint
+2. Filtered to Vulnerable (VU), Endangered (EN), and Critically Endangered (CR) categories
+3. Retrieved full assessments for each to get taxonomy and threat data
+4. Kept only kingdom Animalia species with at least one human-caused threat
+5. Classified threats using the IUCN threat classification scheme (codes 1-9, 11)
+
+Human-caused threat categories include: residential & commercial development, agriculture & aquaculture, energy production & mining, transportation, biological resource use, human intrusions & disturbance, natural system modifications, invasive & problematic species, pollution, and climate change & severe weather.
+
+**Citation:** IUCN 2025. IUCN Red List of Threatened Species. Version 2025-2 <www.iucnredlist.org>
+
+## Tech stack
+
+- **[SvelteKit](https://svelte.dev/)** — static site with adapter-static
+- **[Observable Plot](https://observablehq.com/plot/)** — `Plot.voronoi` + `Plot.dot` marks
+- **[Simple Data Analysis](https://github.com/nshiab/simple-data-analysis)** — data processing pipeline (DuckDB under the hood)
+- **[Deno](https://deno.com/)** — runtime and task runner
+- **GitHub Pages** — hosting
+
+## Running locally
+
+```bash
+# Terminal 1: run the data pipeline (requires IUCN_API_KEY env var)
+IUCN_API_KEY=your_key_here deno task sda
+
+# Terminal 2: start the dev server
+deno task dev
+```
+
+The processed data is committed to the repo at `src/data/us_endangered_animalia.json`, so you only need to rerun the pipeline if you want to refresh the data.
+
+## Created by
+
+[Nicole Mark](https://www.nicoledesignsdata.net)
